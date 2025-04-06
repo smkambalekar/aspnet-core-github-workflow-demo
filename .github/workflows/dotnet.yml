@@ -3,7 +3,7 @@
 
 
 
-name: Build ASP.NET Core App
+name: .NET Build and Test
 
 on:
   push:
@@ -16,19 +16,26 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
+    - name: Checkout source code
       uses: actions/checkout@v4
 
-    - name: Setup .NET
+    - name: Setup .NET SDK
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: '8.0.x' # Use your actual version (e.g. 7.0.x or 6.0.x)
+        dotnet-version: 8.0.x
+
+    - name: List files (debug)
+      run: ls -R
 
     - name: Restore dependencies
-      run: dotnet restore aspnetcoreapp/aspnetcoreapp.sln
+      working-directory: aspnetcoreapp
+      run: dotnet restore aspnetcoreapp.sln
 
-    - name: Build project
-      run: dotnet build aspnetcoreapp/aspnetcoreapp.sln --configuration Release --no-restore
+    - name: Build solution
+      working-directory: aspnetcoreapp
+      run: dotnet build aspnetcoreapp.sln --no-restore --configuration Release
 
-    - name: Run tests (optional)
-      run: dotnet test aspnetcoreapp/aspnetcoreapp.sln --no-build --verbosity normal
+    - name: Test solution
+      working-directory: aspnetcoreapp
+      run: dotnet test aspnetcoreapp.sln --no-build --verbosity normal
+
