@@ -1,9 +1,46 @@
-# This workflow will build a .NET project
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
+# # This workflow will build a .NET project
+# # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
 
 
 
-name: .NET Build and Test
+# name: .NET Build and Test
+
+# on:
+#   push:
+#     branches: [ "main" ]
+#   pull_request:
+#     branches: [ "main" ]
+
+# jobs:
+#   build:
+#     runs-on: ubuntu-latest
+
+#     steps:
+#     - name: Checkout source code
+#       uses: actions/checkout@v4
+
+#     - name: Setup .NET SDK
+#       uses: actions/setup-dotnet@v4
+#       with:
+#         dotnet-version: 9.0.x
+
+#     - name: Debug - List files in repository
+#       run: ls -R
+
+#     - name: Debug - List files in aspnetcoreapp
+#       run: ls -R aspnetcoreapp
+
+#     - name: Restore dependencies
+#       run: dotnet restore aspnetcoreapp/aspnetcoreapp.sln
+
+#     - name: Build solution
+#       run: dotnet build aspnetcoreapp/aspnetcoreapp.sln --no-restore --configuration Release
+
+#     - name: Test solution
+#       run: dotnet test aspnetcoreapp/aspnetcoreapp.sln --no-build --verbosity normal
+
+
+name: .NET Build, Test, and Upload Artifact
 
 on:
   push:
@@ -38,5 +75,12 @@ jobs:
 
     - name: Test solution
       run: dotnet test aspnetcoreapp/aspnetcoreapp.sln --no-build --verbosity normal
+
+    - name: Upload Release folder as artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: release-build
+        path: aspnetcoreapp/bin/Release/
+
 
 
